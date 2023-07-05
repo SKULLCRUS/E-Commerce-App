@@ -42,3 +42,20 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#For Server(Node.js)
+node_modules/
+jspm_packages/
+.env
+yarn-error.log
+env
+*.xlsx
+*.xls
+*.csv
+__pycache__/
+*.pyc
+*.py
+*.pyo
+*.pyd
+*.json
+
