@@ -24,10 +24,10 @@ app.use('/api', api)
 
 // use this to see what Mongoose is doing behind the scenes, comment out when done
 // mongoose.set('debug', true)
-
+const port = 3001;
 const httpServer = http.createServer(app);
-httpServer.listen(5000, () => {
-  console.log('HTTP Server running on port 5000');
+httpServer.listen(port,"192.168.0.185", () => {
+  console.log(`HTTP Server running on port ${port}`);
 });
 // const PORT = process.env.PORT || 80
 // app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

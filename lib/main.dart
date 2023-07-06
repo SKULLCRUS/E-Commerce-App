@@ -1,10 +1,16 @@
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazon_clone/provider/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<UserProvider>(
+      create: (context) => UserProvider(),
+    ),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,13 +23,10 @@ class MyApp extends StatelessWidget {
       title: 'Amazon Clone',
       theme: ThemeData(
         scaffoldBackgroundColor: GlobalVariables.backgroundColor,
-        appBarTheme:  const AppBarTheme(
-          elevation: 0,
-          iconTheme: IconThemeData(
-            color: Colors.black
-          )
-        ),
-        colorScheme: const ColorScheme.light(primary: GlobalVariables.secondaryColor,
+        appBarTheme: const AppBarTheme(
+            elevation: 0, iconTheme: IconThemeData(color: Colors.black)),
+        colorScheme: const ColorScheme.light(
+          primary: GlobalVariables.secondaryColor,
         ),
         useMaterial3: true,
       ),
@@ -32,5 +35,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

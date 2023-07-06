@@ -12,15 +12,17 @@ const signup = async (req, res) => {
       const { name, email, password } = req.body;
 
       // Get values from request
-  if (!email || !password||!name) return res.status(200).json({ 'message': 'All fields are required' });
+  if (!email || !password||!name) return res.status(400).json({ 
+    success: false,
+    message: 'All fields are required' });
   
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res
-          .status(200)
+          .status(400)
           .json({ 
-            success:"False",
-            msg: "User with same email already exists!" });
+            success:false,
+            message: "User with same email already exists!" });
       }
   // Salt and hash password
   const saltedPassword = await bcrypt.genSalt(10)
@@ -35,13 +37,13 @@ const signup = async (req, res) => {
       })
   
   
-      response.status(200).json({
+      res.status(200).json({
         success: true,
         user:newUser,
         message: 'User created successfully!',
       })
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        return res.status(500).json({ error: error.message });
     }
   }
 

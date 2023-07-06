@@ -18,7 +18,7 @@ const Verify = async (req, res) => {
         if (user) {
             User.findOne({ _id: user.userId }).then((response) => {
                 if (response === null) {
-                    return res.status(404).json({ success: false, message: "User not found" })
+                    return res.status(400).json({ success: false, message: "User not found" })
                 } else {
                     return res.status(200).json({ success: true, ...user })
                 }
@@ -35,10 +35,10 @@ const Verify = async (req, res) => {
         }
     }
     catch(err) {
-        console.log(err)
-        res.status(404).json({
+        // console.log(err)
+        res.status(500).json({
             success: false,
-            message: "Invalid token"
+            error: err.message
         })
     }
 }
