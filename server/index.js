@@ -22,6 +22,7 @@ app.use(bodyParser.json())
 
 app.use('/api', api)
 
+
 // use this to see what Mongoose is doing behind the scenes, comment out when done
 // mongoose.set('debug', true)
 const port = 3001;
