@@ -15,7 +15,6 @@ import '../../../provider/user_provider.dart';
 
 class AuthService {
   //sign in a user
-
   void signIn({
     required BuildContext context,
     required String email,
@@ -42,13 +41,57 @@ class AuthService {
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(response.body);
             await prefs.setString(
-                'auth-token', jsonDecode(response.body)['token']);
+                'x-auth-token', jsonDecode(response.body)['token']);
             showSnackBar(context, "User Signed in successfully!");
             Navigator.pushNamedAndRemoveUntil(
                 context, HomeScreen.routeName, (route) => false);
           });
     } catch (error) {
       print("This is catch block of signin function");
+      showSnackBar(context, error.toString());
+    }
+  }
+  //sign in a user
+  void getUserData({
+     required BuildContext context,
+    
+  }) async {
+    try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? token= prefs.getString('x-auth-token');
+        // print("token fetched successfully! from shared preferences");
+        // print(token);
+
+        if(token==null){
+          prefs.setString('x-auth-token','');
+        }
+        String url = '$host/api/verifytoken';
+      var headers = {'Content-Type': 'application/json',
+      'x-auth-token': token!
+      };
+      final tokenRes = await http.post(
+        Uri.parse(url),
+        headers: headers,
+      );
+      // print("Token response from verify token api is --->");
+      // print(jsonDecode(tokenRes.body));
+
+      var response=jsonDecode(tokenRes.body)['success'];
+      if(response==true){
+         String url = '$host/api/user';
+         var headers = {'Content-Type': 'application/json',
+      'x-auth-token': token
+      };
+         final userRes= await http.get(Uri.parse(url),headers:headers);
+
+         print("User response from getUser api is --->");
+      print(jsonDecode(userRes.body));
+
+         var userProvider=Provider.of<UserProvider>(context,listen: false);
+         userProvider.setUser(userRes.body);
+      }
+    } catch (error) {
+      print("This is catch block of getUserData function");
       showSnackBar(context, error.toString());
     }
   }
@@ -70,7 +113,9 @@ class AuthService {
           address: "",
           type: "user",
           token: "",
-          cart: []);
+          // cart: []
+          
+          );
 
       String url = '$host/api/signup';
       var headers = {'Content-Type': 'application/json'};

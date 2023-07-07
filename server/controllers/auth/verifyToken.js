@@ -2,45 +2,35 @@
 import User from '../../models/user.js'
 import jwt from 'jsonwebtoken'
 
-const verifyToken = (token) => {
-    return jwt.verify(token, process.env.JWT_SECRET)
-}
+// const verifyToken = (token) => {
+//     return jwt.verify(token, process.env.JWT_SECRET)
+// }
 
 const Verify = async (req, res) => {
-    const { token } = req.body
-
     try {
-
-        const user = verifyToken(token)
-        // console.log(user)
-        // console.log(new Date(1681051672).toLocaleTimeString())
-
-        if (user) {
-            User.findOne({ _id: user.userId }).then((response) => {
-                if (response === null) {
-                    return res.status(400).json({ success: false, message: "User not found" })
-                } else {
-                    return res.status(200).json({ success: true, ...user })
-                }
-            }).catch((err) => {
-                console.log(err)
-                return res.status(404).json({ success: false, message: "Something went wrong!!!" })
-            })
-        }
-        else {
-            res.status(404).json({
-                success: false,
-                message: "Invalid token"
-            })
-        }
-    }
-    catch(err) {
-        // console.log(err)
-        res.status(500).json({
-            success: false,
-            error: err.message
-        })
-    }
+        const token = req.header('x-auth-token');
+        if (!token) return res.json({
+            success:false,
+        message:"token is empty"
+        });
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        if (!verified) return res.json({
+            success:false,
+        message:"token is Invalid"
+        });
+    
+        const user = await User.findById(verified.userId);
+        if (!user) return res.json({
+            success:false,
+        message:"No user found with this token"
+        });
+        res.json({
+            success:true,
+        message:"token validated successfully"
+        });
+      } catch (e) {
+        res.status(500).json({ error: e.message });
+      }
 }
 
 export default Verify
