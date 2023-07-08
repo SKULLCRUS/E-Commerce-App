@@ -1,6 +1,11 @@
 
 import 'package:flutter/material.dart';
 
+import '../../../common/widgets/loader.dart';
+import '../../../models/product.dart';
+import '../../product_details/screens/product_details_screen.dart';
+import '../services/home_services.dart';
+
 class DealOfDay extends StatefulWidget {
   const DealOfDay({Key? key}) : super(key: key);
 
@@ -9,38 +14,36 @@ class DealOfDay extends StatefulWidget {
 }
 
 class _DealOfDayState extends State<DealOfDay> {
-  // Product? product;
-  // final HomeServices homeServices = HomeServices();
-  List list=[
-    'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWFjYm9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWFjYm9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWFjYm9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWFjYm9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60',
-  ];
+  Product? product;
+  final HomeServices homeServices = HomeServices();
 
   @override
   void initState() {
     super.initState();
-    // fetchDealOfDay();
+    fetchDealOfDay();
   }
 
-  // void fetchDealOfDay() async {
-  //   product = await homeServices.fetchDealOfDay(context: context);
-  //   setState(() {});
-  // }
+  void fetchDealOfDay() async {
+    product = await homeServices.fetchDealOfDay(context: context);
+    setState(() {});
+  }
 
-  // void navigateToDetailScreen() {
-  //   Navigator.pushNamed(
-  //     context,
-  //     ProductDetailScreen.routeName,
-  //     arguments: product,
-  //   );
-  // }
+  void navigateToDetailScreen() {
+    Navigator.pushNamed(
+      context,
+      ProductDetailScreen.routeName,
+      arguments: product,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
-                onTap: (){},
+    return product == null
+        ? const Loader()
+        : product!.name.isEmpty
+            ? const SizedBox()
+            : GestureDetector(
+                onTap: navigateToDetailScreen,
                 child: Column(
                   children: [
                     Container(
@@ -52,24 +55,24 @@ class _DealOfDayState extends State<DealOfDay> {
                       ),
                     ),
                     Image.network(
-                      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFjYm9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60',
+                      product!.images[0],
                       height: 235,
                       fit: BoxFit.fitHeight,
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 15),
                       alignment: Alignment.topLeft,
-                      child: const Text(
-                        '\₹1,50,000',
-                        style: TextStyle(fontSize: 18),
+                      child:  Text(
+                        '\$${product!.price}',
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
                     Container(
                       alignment: Alignment.topLeft,
                       padding:
                           const EdgeInsets.only(left: 15, top: 5, right: 40),
-                      child: const Text(
-                        'MacBook M1 chip',
+                      child: Text(
+                        '${product!.name}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -78,7 +81,7 @@ class _DealOfDayState extends State<DealOfDay> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: list
+                        children: product!.images
                             .map(
                               (e) => Image.network(
                                 e,

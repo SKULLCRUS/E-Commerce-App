@@ -114,7 +114,7 @@ class AuthService {
           address: "",
           type: "user",
           token: "",
-          // cart: []
+          cart: []
           
           );
 

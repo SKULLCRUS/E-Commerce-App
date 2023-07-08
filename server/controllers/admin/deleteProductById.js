@@ -1,4 +1,4 @@
-import Product from "../../models/product.js";
+import {Product} from "../../models/product.js";
 
 const deleteProduct=async (req, res) => {
     try {

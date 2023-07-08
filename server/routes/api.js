@@ -12,6 +12,13 @@ import addProduct from './addProduct.js'
 import getAllProducts from './getAllProducts.js'  
 import deleteProduct from './deleteProductById.js'  
 import getProductByCategory from './getProductsByCat.js'  
+import getProductsByName from './getProductsByName.js'  
+import rateProduct from './rateProduct.js'  
+import dealOfTheDay from './dealOfTheDay.js'  
+import addToCart from './addToCart.js'  
+import removeFromCart from './removeFromCart.js'  
+import addAddress from './addAddress.js'  
+import orderProduct from './orderProduct.js'  
 
 //middleware
 
@@ -23,6 +30,13 @@ router.use('/verifytoken', verifyToken)
 //*auth is protected route for getting user data
 router.use('/user',auth,getUser)
 router.use('/products',auth,getProductByCategory)
+router.use('/products/search',auth,getProductsByName)
+router.use('/rate-product',auth,rateProduct)
+router.use('/deal-of-day',auth,dealOfTheDay)
+router.use('/add-to-cart',auth,addToCart)
+router.use('/remove-from-cart',auth,removeFromCart)
+router.use('/save-user-address',auth,addAddress)
+router.use('/order',auth,orderProduct)
 //?Admin related routes
 router.use('/admin/add-product',admin,addProduct)
 router.use('/admin/get-products',admin,getAllProducts)

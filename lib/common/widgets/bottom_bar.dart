@@ -1,10 +1,13 @@
 
 import 'package:amazon_clone/features/account/screens/account_screen.dart';
+import 'package:amazon_clone/features/cart/screens/cart_screen.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/global_variables.dart';
 import '../../features/home/screens/home_screen.dart';
+import '../../provider/user_provider.dart';
 
 
 class BottomBar extends StatefulWidget {
@@ -23,7 +26,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    const Center(child:Text("Cart Page") ,),
+    const CartScreen(),
   ];
 
   void updatePage(int page) {
@@ -34,7 +37,7 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    // final userCartLen = context.watch<UserProvider>().user.cart.length;
+    final userCartLen = context.watch<UserProvider>().user.cart.length;//shortcut for Provider.of<UserProvider>(context)
 
     return Scaffold(
       body: pages[_page],
@@ -106,7 +109,7 @@ class _BottomBarState extends State<BottomBar> {
       ignorePointer: false,
       onTap: () {},
       badgeContent:
-          const Text("2"),
+           Text(userCartLen.toString()),
       badgeAnimation: const badges.BadgeAnimation.rotation(
         animationDuration: Duration(seconds: 1),
         colorChangeAnimationDuration: Duration(seconds: 1),
@@ -129,7 +132,7 @@ class _BottomBarState extends State<BottomBar> {
         // ),
         elevation: 0,
       ),
-      child: Icon(Icons.shopping_cart_outlined),
+      child: const Icon(Icons.shopping_cart_outlined),
     ),
             ),
             label: '',
