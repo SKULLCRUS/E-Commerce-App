@@ -1,0 +1,14 @@
+node_modules/
+jspm_packages/
+.env
+yarn-error.log
+env
+*.xlsx
+*.xls
+*.csv
+__pycache__/
+*.pyc
+*.py
+*.pyo
+*.pyd
+# *.json
