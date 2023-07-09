@@ -19,6 +19,10 @@ import addToCart from './addToCart.js'
 import removeFromCart from './removeFromCart.js'  
 import addAddress from './addAddress.js'  
 import orderProduct from './orderProduct.js'  
+import userOrders from './userOrders.js'  
+import getAllOrders from './getAllOrders.js'  
+import changeOrderStatus from './changeOrderStatus.js'  
+import analytics from './adminAnalytics.js'  
 
 //middleware
 
@@ -37,9 +41,13 @@ router.use('/add-to-cart',auth,addToCart)
 router.use('/remove-from-cart',auth,removeFromCart)
 router.use('/save-user-address',auth,addAddress)
 router.use('/order',auth,orderProduct)
+router.use('/orders/me',auth,userOrders)
 //?Admin related routes
 router.use('/admin/add-product',admin,addProduct)
 router.use('/admin/get-products',admin,getAllProducts)
 router.use('/admin/delete-product',admin,deleteProduct)
+router.use('/admin/get-orders',admin,getAllOrders)
+router.use('/admin/change-order-status',admin,changeOrderStatus)
+router.use('/admin/analytics',admin,analytics)
 
 export default router

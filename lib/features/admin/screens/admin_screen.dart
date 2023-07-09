@@ -2,6 +2,9 @@ import 'package:amazon_clone/features/admin/screens/posts_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../account/services/account_services.dart';
+import 'analytics_scree.dart';
+import 'order_screen.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({Key? key}) : super(key: key);
@@ -16,12 +19,9 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
-    // const Center(child: Text("Posts Screen"),),
     const PostsScreen(),
-    const Center(child: Text("Analytics Screen"),),
-    const Center(child: Text("Orders Screen"),),
-    // const AnalyticsScreen(),
-    // const OrdersScreen(),
+    const AnalyticsScreen(),
+    const OrdersScreen(),
   ];
 
   void updatePage(int page) {
@@ -53,6 +53,7 @@ class _AdminScreenState extends State<AdminScreen> {
                   color: Colors.black,
                 ),
               ),
+              IconButton(onPressed: () => AccountServices().logOut(context), icon: const Icon(Icons.power_settings_new_rounded)),
               const Text(
                 'Admin',
                 style: TextStyle(

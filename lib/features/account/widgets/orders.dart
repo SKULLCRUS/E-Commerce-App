@@ -2,6 +2,9 @@ import 'package:amazon_clone/features/account/widgets/single_product.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../../models/order.dart';
+import '../../order_details/screens/order_details.dart';
+import '../services/account_services.dart';
 
 class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);
@@ -11,27 +14,27 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  List  list=[
-    'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-  ];
-  // List<Order>? orders;
-  // final AccountServices accountServices = AccountServices();
+  // List  list=[
+  //   'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+  //   'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+  //   'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+  //   'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+  //   'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+  //   'https://images.unsplash.com/photo-1683009427500-71296178737f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+  // ];
+  List<Order>? orders;
+  final AccountServices accountServices = AccountServices();
 
   @override
   void initState() {
     super.initState();
-    // fetchOrders();
+    fetchOrders();
   }
 
-  // void fetchOrders() async {
-  //   orders = await accountServices.fetchMyOrders(context: context);
-  //   setState(() {});
-  // }
+  void fetchOrders() async {
+    orders = await accountServices.fetchMyOrders(context: context);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,33 +68,36 @@ class _OrdersState extends State<Orders> {
                   ),
                 ],
               ),
+               const Center(child: Text("No orders placed yet!"))
+
               // display orders
-              Container(
-                height: 170,
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  top: 20,
-                  right: 0,
-                ),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   OrderDetailScreen.routeName,
-                        //   arguments: orders![index],
-                        // );
-                      },
-                      child: SingleProduct(
-                        image: list[index],
-                      ),
-                    );
-                  },
-                ),
-              ),
+              // Container(
+              //   height: 170,
+              //   padding: const EdgeInsets.only(
+              //     left: 10,
+              //     top: 20,
+              //     right: 0,
+              //   ),
+              //   child: orders!.length==0?const Text("No orders placed yet!"):ListView.builder(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: orders!.length,
+              //     itemBuilder: (context, index) {
+              //       return GestureDetector(
+              //         onTap: () {
+              //           Navigator.pushNamed(
+              //             context,
+              //             OrderDetailScreen.routeName,
+              //             arguments: orders![index],
+              //           );
+              //         },
+              //         child: SingleProduct(
+              //           image: orders![index].products[0].images[0],
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
+             
             ],
           );
   }

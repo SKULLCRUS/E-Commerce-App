@@ -1,4 +1,5 @@
 import User from "../../models/user.js"
+import {Product} from "../../models/product.js"
 
 const addAddress=async (req, res) => {
     try {
