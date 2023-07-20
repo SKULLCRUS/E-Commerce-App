@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// const host = "http://192.168.1.213:3001";
+
 const host = "https://inquisitive-gray-bear.cyclic.app";
 
 class GlobalVariables {
